@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author hogan
+ * @author Jake and Jamie
  *
  */
 public class CarTests {
