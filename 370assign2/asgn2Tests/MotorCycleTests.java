@@ -16,12 +16,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import asgn2Exceptions.VehicleException;
+import asgn2Vehicles.MotorCycle;
+import asgn2Vehicles.Vehicle;
+
 /**
  * @author hogan
  *
  */
 public class MotorCycleTests {
-
+	private MotorCycle MotorCycleTests;
+	//private Vehicle VehicleTests;
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -36,43 +41,86 @@ public class MotorCycleTests {
 	public void tearDown() throws Exception {
 	}
 
+	/* --------------------------------------------------------------------------------------------*/
+	/* Start of tests for MotorCycle() constructor */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.MotorCycle#MotorCycle(java.lang.String, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testMotorCycleTimeNeg() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", -1);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.MotorCycle#MotorCycle(java.lang.String, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testMotorCycleTimeZero() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 0);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.MotorCycle#MotorCycle(java.lang.String, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testMotorCycle() {
-		fail("Not yet implemented"); // TODO
+	public void testMotorCycleTimePosSmall() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
 	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.MotorCycle#MotorCycle(java.lang.String, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testMotorCycleTimePosLarge() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 100);
+	}
+	
+	/* End of tests for MotorCycleTests() constructor */
+	/* --------------------------------------------------------------------------------------------*/
 
+	
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#Vehicle(java.lang.String, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
-	@Test
-	public void testVehicle() {
-		fail("Not yet implemented"); // TODO
+	@Test(expected = VehicleException.class)
+	public void testVehicle() throws VehicleException{
+		
+		MotorCycleTests = new MotorCycle("TEST", -1); // WORK IT OUT LATER DON"T FORGET ABOUT IT!!!!!!!!!!!!!!!!!!!!!!!!! //TODO
 	}
 
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#getVehID()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testGetVehID() {
-		fail("Not yet implemented"); // TODO
+	public void testGetVehID() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		assertEquals("TEST", MotorCycleTests.getVehID());
 	}
 
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#getArrivalTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testGetArrivalTime() {
-		fail("Not yet implemented"); // TODO
+	public void testGetArrivalTime() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		assertEquals(1, MotorCycleTests.getArrivalTime());
 	}
 
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#enterQueuedState()}.
+	 *  @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testEnterQueuedState() {
+	public void testEnterQueuedState() throws VehicleException {
 		fail("Not yet implemented"); // TODO
 	}
 
