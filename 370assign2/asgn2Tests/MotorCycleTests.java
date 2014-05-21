@@ -26,7 +26,7 @@ import asgn2Vehicles.MotorCycle;
  */
 public class MotorCycleTests {
 	private MotorCycle MotorCycleTests;
-	//private Vehicle VehicleTests;
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -42,6 +42,7 @@ public class MotorCycleTests {
 	}
 
 	/* --------------------------------------------------------------------------------------------*/
+	
 	/* Start of tests for MotorCycle() constructor */
 	
 	/**
@@ -81,20 +82,11 @@ public class MotorCycleTests {
 	}
 	
 	/* End of tests for MotorCycleTests() constructor */
+	
 	/* --------------------------------------------------------------------------------------------*/
 
+	/* Start of Vehicle tests */
 	
-	
-	/**
-	 * Test method for {@link asgn2Vehicles.Vehicle#Vehicle(java.lang.String, int)}.
-	 * @author Jake n8509956 and Jamie n8853312
-	 */
-	@Test(expected = VehicleException.class)
-	public void testVehicle() throws VehicleException{
-
-		MotorCycleTests = new MotorCycle("TEST", -1); // WORK IT OUT LATER DON"T FORGET ABOUT IT!!!!!!!!!!!!!!!!!!!!!!!!! //TODO
-	}
-
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#getVehID()}.
 	 * @author Jake n8509956 and Jamie n8853312
@@ -115,114 +107,500 @@ public class MotorCycleTests {
 		assertEquals(1, MotorCycleTests.getArrivalTime());
 	}
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#enterQueuedState()}.
 	 *  @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testEnterQueuedState() throws VehicleException {
-		fail("Not yet implemented"); // TODO
+	public void testEnterQueuedStateNew() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterQueuedState()}.
+	 *  @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testEnterQueuedStateQueued() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		MotorCycleTests.enterQueuedState();
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterQueuedState()}.
+	 *  @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testEnterQueuedStateParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20,20);
+		MotorCycleTests.enterQueuedState();
 	}
 
+
+	
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#exitQueuedState(int)}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testExitQueuedState() {
-		fail("Not yet implemented"); // TODO
+	public void testExitQueuedStateQueue() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		MotorCycleTests.exitQueuedState(20);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#exitQueuedState(int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testExitQueuedStateNew() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.exitQueuedState(20);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#exitQueuedState(int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testExitQueuedStateParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20,20);
+		MotorCycleTests.exitQueuedState(30);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#exitQueuedState(int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testExitQueuedStateExitTime() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterQueuedState();
+		MotorCycleTests.exitQueuedState(15);
 	}
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
-	@Test
-	public void testEnterParkedState() {
-		fail("Not yet implemented"); // TODO
+	@Test (expected = VehicleException.class)
+	public void testEnterParkedStateNeg() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(-1, 20);
 	}
-
+	
 	/**
-	 * Test method for {@link asgn2Vehicles.Vehicle#exitParkedState(int)}.
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test (expected = VehicleException.class)
+	public void testEnterParkedStateZero() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(0, 20);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testExitParkedStateInt() {
-		fail("Not yet implemented"); // TODO
+	public void testEnterParkedStatePos() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 20);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testEnterParkedStateLessThanMinStay() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 19);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testEnterParkedStateEqualMinStay() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 20);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testEnterParkedStateGreaterThanMinStay() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 21);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testEnterParkedStateFromParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 21);
+		MotorCycleTests.enterParkedState(21, 21);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testEnterParkedStateFromQueue() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterQueuedState();
+		MotorCycleTests.enterParkedState(21, 21);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#enterParkedState(int, int)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testEnterParkedStateFromExitedQueue() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterQueuedState();
+		MotorCycleTests.exitQueuedState(21);
+		MotorCycleTests.enterParkedState(21, 21);
 	}
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#exitParkedState()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testExitParkedState() {
-		fail("Not yet implemented"); // TODO
+	public void testExitParkedStateParked() throws VehicleException{
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 21);
+		MotorCycleTests.exitParkedState(30);
 	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#exitParkedState()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testExitParkedStateDepartureTimeEqual() throws VehicleException{
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 21);
+		MotorCycleTests.exitParkedState(21);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#exitParkedState()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testExitParkedStateDepartureTimeLower() throws VehicleException{
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterParkedState(21, 21);
+		MotorCycleTests.exitParkedState(20);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#exitParkedState()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testExitParkedStateNew() throws VehicleException{
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.exitParkedState(30);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#exitParkedState()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testExitParkedStateQueued() throws VehicleException{
+		MotorCycleTests = new MotorCycle("TEST", 20);
+		MotorCycleTests.enterQueuedState();
+		MotorCycleTests.exitParkedState(30);
+	}
+	
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#isParked()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testIsParked() {
-		fail("Not yet implemented"); // TODO
+	public void testIsParkedParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		assertTrue(MotorCycleTests.isParked());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isParked()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsParkedNew() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		assertFalse(MotorCycleTests.isParked());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isParked()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsParkedQueued() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		assertFalse(MotorCycleTests.isParked());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isParked()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsParkedLeftParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		MotorCycleTests.exitParkedState(40);
+		assertFalse(MotorCycleTests.isParked());
 	}
 
+
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#isQueued()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testIsQueued() {
-		fail("Not yet implemented"); // TODO
+	public void testIsQueuedInQueue() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		assertTrue(MotorCycleTests.isQueued());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isQueued()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsQueuedNew() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		assertFalse(MotorCycleTests.isQueued());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isQueued()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsQueuedParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		assertFalse(MotorCycleTests.isQueued());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isQueued()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsQueuedLeftParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		MotorCycleTests.exitParkedState(40);
+		assertFalse(MotorCycleTests.isQueued());
+	}
+
+	/* ------------------------------------------------------------------------------------------ */
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#getParkingTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testGetParkingTimeNew() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		assertEquals(0, MotorCycleTests.getParkingTime());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#getParkingTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testGetParkingTimeQueued() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		assertEquals(0, MotorCycleTests.getParkingTime());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#getParkingTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testGetParkingTimeParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		assertEquals(20, MotorCycleTests.getParkingTime());
 	}
 
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#getParkingTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testGetParkingTime() {
-		fail("Not yet implemented"); // TODO
+	public void testGetParkingTimeLeftParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		MotorCycleTests.exitParkedState(40);
+		assertEquals(20, MotorCycleTests.getParkingTime());
 	}
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#getDepartureTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testGetDepartureTime() {
-		fail("Not yet implemented"); // TODO
+	public void testGetDepartureTimeNew() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		assertEquals(0, MotorCycleTests.getDepartureTime());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#getDepartureTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testGetDepartureTimeQueued() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		assertEquals(0, MotorCycleTests.getDepartureTime());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#getDepartureTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testGetDepartureTimeParked() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(10, 20);
+		assertEquals(30, MotorCycleTests.getDepartureTime());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#getDepartureTime()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testGetDepartureTimeActual() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(10, 20);
+		MotorCycleTests.exitParkedState(40);
+		assertEquals(40, MotorCycleTests.getDepartureTime());
 	}
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#wasQueued()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testWasQueued() {
-		fail("Not yet implemented"); // TODO
+	public void testWasQueued() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		assertTrue(MotorCycleTests.wasQueued());
 	}
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#wasParked()}.
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testWasParked() throws VehicleException{
-		// TODO
 		MotorCycleTests = new MotorCycle("TEST", 1);
 		MotorCycleTests.enterParkedState(20, 20);
 		assertTrue(MotorCycleTests.wasParked());
-		
 	}
 
+	/* ------------------------------------------------------------------------------------------ */
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#isSatisfied()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testIsSatisfied() {
-		fail("Not yet implemented"); // TODO
+	public void testIsSatisfiedNew() throws VehicleException{
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		assertTrue(MotorCycleTests.isSatisfied());
 	}
-
+	
 	/**
-	 * Test method for {@link asgn2Vehicles.Vehicle#toString()}.
+	 * Test method for {@link asgn2Vehicles.Vehicle#isSatisfied()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testToString() {
-		fail("Not yet implemented"); // TODO
+	public void testIsSatisfiedParked() throws VehicleException{
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		assertTrue(MotorCycleTests.isSatisfied());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isSatisfied()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsSatisfiedQueued() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterQueuedState();
+		assertTrue(MotorCycleTests.isSatisfied());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Vehicle#isSatisfied()}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsSatisfiedLeftPark() throws VehicleException {
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		MotorCycleTests.exitParkedState(40);
+		assertTrue(MotorCycleTests.isSatisfied());
 	}
 
+	
+
+	/* End of Vehicle tests */
+	
+	/* ------------------------------------------------------------------------------------------ */
 }

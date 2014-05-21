@@ -39,15 +39,6 @@ public class CarTests {
 	public void tearDown() throws Exception {
 	}
 
-	
-	/**
-	 * Test method for {@link asgn2Vehicles.Car#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		fail("Not yet implemented"); // TODO
-	}
-
 	/**
 	 * Test method for {@link asgn2Vehicles.Car#Car(java.lang.String, int, boolean)}.
 	 * @author Jake n8509956 and Jamie n8853312

@@ -80,6 +80,8 @@ public abstract class Vehicle {
 		
 		this.vehID = vehID;
 		this.arrivalTime = arrivalTime;
+		
+		N = true;
 	}
 
 	/**
@@ -220,7 +222,7 @@ public abstract class Vehicle {
 		if (P){
 			return intendedDepartureTime;
 		}
-		else if(A){
+		else if(A && wasParked()){
 			return departureTime;
 		}
 		else {
@@ -236,7 +238,7 @@ public abstract class Vehicle {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public int getParkingTime() {
-		if (P){
+		if (wasParked()){
 			return parkingTime;
 		}
 		else {

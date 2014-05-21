@@ -23,7 +23,6 @@ import asgn2Exceptions.VehicleException;
 public class Car extends Vehicle {
 	
 	private String vehID;
-	//private int arrivalTime;
 	
 	private boolean small; 
 
@@ -47,7 +46,7 @@ public class Car extends Vehicle {
 		
 		
 		this.vehID = vehID;
-		//this.arrivalTime = arrivalTime;
+
 		this.small = small;
 	}
 
