@@ -198,10 +198,15 @@ public class MotorCycleTests {
 
 	/**
 	 * Test method for {@link asgn2Vehicles.Vehicle#wasParked()}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testWasParked() {
-		fail("Not yet implemented"); // TODO
+	public void testWasParked() throws VehicleException{
+		// TODO
+		MotorCycleTests = new MotorCycle("TEST", 1);
+		MotorCycleTests.enterParkedState(20, 20);
+		assertTrue(MotorCycleTests.wasParked());
+		
 	}
 
 	/**
