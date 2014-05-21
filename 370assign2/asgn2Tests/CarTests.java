@@ -16,12 +16,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import asgn2Exceptions.VehicleException;
+import asgn2Vehicles.Car;
+
 /**
- * @author Jake and Jamie
+ * @author hogan
  *
  */
 public class CarTests {
-
+	private Car CarTests;
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -36,6 +39,7 @@ public class CarTests {
 	public void tearDown() throws Exception {
 	}
 
+	
 	/**
 	 * Test method for {@link asgn2Vehicles.Car#toString()}.
 	 */
@@ -46,18 +50,58 @@ public class CarTests {
 
 	/**
 	 * Test method for {@link asgn2Vehicles.Car#Car(java.lang.String, int, boolean)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testCarTimeNeg() throws VehicleException {
+		CarTests = new Car("TEST", -1, true);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Car#Car(java.lang.String, int, boolean)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test(expected = VehicleException.class)
+	public void testCarTimeZero() throws VehicleException {
+		CarTests = new Car("TEST", 0, true);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Car#Car(java.lang.String, int, boolean)}.
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testCar() {
-		fail("Not yet implemented"); // TODO
+	public void testCarTimePosSmall() throws VehicleException {
+		CarTests = new Car("TEST", 1, true);
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Car#Car(java.lang.String, int, boolean)}.
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testCarTimePosLarge() throws VehicleException {
+		CarTests = new Car("TEST", 100, true);
 	}
 
 	/**
 	 * Test method for {@link asgn2Vehicles.Car#isSmall()}.
+	 *  @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testIsSmall() {
-		fail("Not yet implemented"); // TODO
+	public void testIsSmallTrue() throws VehicleException{
+		CarTests = new Car("Test", 1, true);
+		assertTrue(CarTests.isSmall());
+	}
+	
+	/**
+	 * Test method for {@link asgn2Vehicles.Car#isSmall()}.
+	 *  @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testIsSmallFalse() throws VehicleException{
+		CarTests = new Car("Test", 1, false);
+		assertFalse(CarTests.isSmall());
 	}
 
 }
