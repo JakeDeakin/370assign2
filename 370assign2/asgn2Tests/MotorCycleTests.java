@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import asgn2Exceptions.VehicleException;
 import asgn2Vehicles.MotorCycle;
-import asgn2Vehicles.Vehicle;
+
 
 /**
  * @author hogan
@@ -91,7 +91,7 @@ public class MotorCycleTests {
 	 */
 	@Test(expected = VehicleException.class)
 	public void testVehicle() throws VehicleException{
-		
+
 		MotorCycleTests = new MotorCycle("TEST", -1); // WORK IT OUT LATER DON"T FORGET ABOUT IT!!!!!!!!!!!!!!!!!!!!!!!!! //TODO
 	}
 
