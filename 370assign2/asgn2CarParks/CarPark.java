@@ -91,7 +91,6 @@ public class CarPark {
 		queue = new ArrayList<Vehicle>(0);
 		spaces = new ArrayList<Vehicle>(0);
 		past = new ArrayList<Vehicle>(0);
-		departing = new ArrayList<Vehicle>(0);
 		
 	}
 	
@@ -121,12 +120,12 @@ public class CarPark {
 			}
 		}
 		else {
-			for (Vehicle v: departing){
-				if(v.isParked() || v.isQueued()){
-					throw new VehicleException("Vehicle cannot be parked or queued.");
+			for (Vehicle v: spaces){
+				if (v.getDepartureTime() <= time){
+					unparkVehicle(v, time);
+					past.add(v);
 				}
-				past.add(v);
-				departing.remove(v);
+				
 			}
 		}
 	}
@@ -214,6 +213,7 @@ public class CarPark {
 			throw new VehicleException("Vehicle is already parked or in a queue.");
 		}
 		v.enterQueuedState();
+		queue.add(v);
 	}
 	
 	
@@ -387,7 +387,13 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void processQueue(int time, Simulator sim) throws VehicleException, SimulationException {
-	} //TODO
+		Vehicle v = queue.get(0);
+		
+		if (spacesAvailable(v)){
+			exitQueue(v, time);
+			parkVehicle(v, time, sim.setDuration());
+		}
+	}
 
 	/**
 	 * Simple status showing whether queue is empty
@@ -487,8 +493,52 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void tryProcessNewVehicles(int time,Simulator sim) throws VehicleException, SimulationException {
+		if (sim.motorCycleTrial()){
+			count += 1;
+			MotorCycle m = new MotorCycle("MC" + numMotorCycles, time);
+			if (spacesAvailable(m)){
+				numMotorCycles += 1;
+				parkVehicle(m, time, sim.setDuration());
+			}
+			else if(!queueFull()){
+				enterQueue(m);
+			}
+			else {
+				archiveNewVehicle(m);
+			}
+		}
 		
-	} //TODO
+		if (sim.newCarTrial()){
+			count += 1;
+			if (sim.smallCarTrial()){
+				Car c = new Car("C" + numCars, time, true);
+				if (spacesAvailable(c)){
+					numCars += 1;
+					numSmallCars += 1;
+					parkVehicle(c, time, sim.setDuration());
+				}
+				else if(!queueFull()){
+					enterQueue(c);
+				}
+				else {
+					archiveNewVehicle(c);
+				}
+			} 
+			else {
+				Car c = new Car("C" + numCars, time, false);
+				if (spacesAvailable(c)){
+					numCars += 1;
+					parkVehicle(c, time, sim.setDuration());
+				}
+				else if(!queueFull()){
+					enterQueue(c);
+				}
+				else {
+					archiveNewVehicle(c);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Method to remove vehicle from the carpark. 
@@ -511,7 +561,7 @@ public class CarPark {
 		
 		v.exitParkedState(departureTime);
 		spaces.remove(v);
-		departing.add(v);
+		
 	}
 	
 	/**
