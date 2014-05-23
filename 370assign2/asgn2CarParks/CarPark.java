@@ -61,6 +61,8 @@ public class CarPark {
 	private String status = "";
 	
 	
+	
+	
 	/**
 	 * CarPark constructor sets the basic size parameters. 
 	 * Uses default parameters
