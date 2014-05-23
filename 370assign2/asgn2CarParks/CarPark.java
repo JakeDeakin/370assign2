@@ -126,9 +126,9 @@ public class CarPark {
 		}
 		else {
 			for (Vehicle v: spaces){
-				if (v.getDepartureTime() <= time){
-					unparkVehicle(v, time);
-					past.add(v);
+				if (v.getDepartureTime() == time){
+					//unparkVehicle(v, time);
+					//past.add(v); //TODO
 				}
 				
 			}
@@ -163,7 +163,7 @@ public class CarPark {
 			if(v.getArrivalTime() + Constants.MAXIMUM_QUEUE_TIME <= time){
 				exitQueue(v, time);
 				numDissatisfied += 1;
-				past.add(v);
+				past.add(v); // TODO
 			}
 		}
 	}
@@ -392,11 +392,14 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void processQueue(int time, Simulator sim) throws VehicleException, SimulationException {
+		if (queue.size() != 0){
+		
 		Vehicle v = queue.get(0);
 		
 		if (spacesAvailable(v)){
 			exitQueue(v, time);
 			parkVehicle(v, time, sim.setDuration());
+		}
 		}
 	}
 
@@ -566,6 +569,7 @@ public class CarPark {
 		
 		v.exitParkedState(departureTime);
 		spaces.remove(v);
+		past.add(v);
 		
 	}
 	
