@@ -107,9 +107,14 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void archiveDepartingVehicles(int time,boolean force) throws VehicleException, SimulationException {
-		
 		if (force){
+			if (spaces.size() == 0){
+				throw new SimulationException("There are no parked vehicles.");
+			}
 			for(Vehicle v: spaces){
+				if(!v.isParked()){
+					throw new VehicleException("Vehicle is not parked.");
+				}
 				v.exitParkedState(time);
 				past.add(v);
 				spaces.remove(v);
@@ -117,6 +122,9 @@ public class CarPark {
 		}
 		else {
 			for (Vehicle v: departing){
+				if(v.isParked() || v.isQueued()){
+					throw new VehicleException("Vehicle cannot be parked or queued.");
+				}
 				past.add(v);
 				departing.remove(v);
 			}

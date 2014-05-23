@@ -16,12 +16,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import asgn2CarParks.CarPark;
+import asgn2Exceptions.SimulationException;
+import asgn2Exceptions.VehicleException;
+import asgn2Vehicles.Car;
+import asgn2Vehicles.Vehicle;
+
 /**
  * @author hogan
  *
  */
 public class CarParkTests {
-
+		private CarPark carParkTests;
+		private Car car;
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -36,22 +43,61 @@ public class CarParkTests {
 	public void tearDown() throws Exception {
 	}
 
+	/*---------------------------------------------------------------------------------------------------*/
+	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#archiveDepartingVehicles(int, boolean)}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
-	@Test
-	public void testArchiveDepartingVehicles() {
-		fail("Not yet implemented"); // TODO
+	@Test(expected = SimulationException.class)
+	public void testArchiveDepartingVehicles() throws SimulationException, VehicleException{
+		carParkTests = new CarPark();
+		carParkTests.archiveDepartingVehicles(100,true);
+		//TODO
 	}
+	
+	/*---------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#archiveNewVehicle(asgn2Vehicles.Vehicle)}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testArchiveNewVehicle() {
-		fail("Not yet implemented"); // TODO
+	public void testArchiveNewVehicleGoodInput()  throws SimulationException, VehicleException{
+		carParkTests = new CarPark();
+		car = new Car("TEST", 100, true);
+		carParkTests.archiveNewVehicle(car);
 	}
-
+	
+	/**
+	 * Test method for {@link asgn2CarParks.CarPark#archiveNewVehicle(asgn2Vehicles.Vehicle)}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test (expected = SimulationException.class)
+	public void testArchiveNewVehicleParked()  throws SimulationException, VehicleException{
+		carParkTests = new CarPark();
+		car = new Car("TEST", 100, true);
+		car.enterParkedState(100, 20);
+		carParkTests.archiveNewVehicle(car);
+	}
+	
+	/**
+	 * Test method for {@link asgn2CarParks.CarPark#archiveNewVehicle(asgn2Vehicles.Vehicle)}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test (expected = SimulationException.class)
+	public void testArchiveNewVehicleQueued()  throws SimulationException, VehicleException{
+		carParkTests = new CarPark();
+		car = new Car("TEST", 100, true);
+		car.enterQueuedState();
+		carParkTests.archiveNewVehicle(car);
+	}
+	
+	/*---------------------------------------------------------------------------------------------------*/
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#archiveQueueFailures(int)}.
 	 */
@@ -60,6 +106,8 @@ public class CarParkTests {
 		fail("Not yet implemented"); // TODO
 	}
 
+	/*---------------------------------------------------------------------------------------------------*/
+	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#carParkEmpty()}.
 	 */
@@ -68,6 +116,9 @@ public class CarParkTests {
 		fail("Not yet implemented"); // TODO
 	}
 
+	
+	/*---------------------------------------------------------------------------------------------------*/
+	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#carParkFull()}.
 	 */
@@ -75,7 +126,9 @@ public class CarParkTests {
 	public void testCarParkFull() {
 		fail("Not yet implemented"); // TODO
 	}
-
+	
+	/*---------------------------------------------------------------------------------------------------*/
+	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#enterQueue(asgn2Vehicles.Vehicle)}.
 	 */
