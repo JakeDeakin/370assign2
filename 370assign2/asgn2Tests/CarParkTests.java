@@ -100,7 +100,6 @@ public class CarParkTests {
 	 * Test method for {@link asgn2CarParks.CarPark#archiveQueueFailures(int)}.
 	 * 
 	 * @author Jake n8509956 and Jamie n8853312
-	 * @throws SimulationException 
 	 */
 	@Test
 	public void testArchiveQueueFailures() throws VehicleException, SimulationException {
@@ -126,6 +125,7 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#carParkEmpty()}.
+	 * 
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
@@ -150,6 +150,7 @@ public class CarParkTests {
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#enterQueue(asgn2Vehicles.Vehicle)}.
 	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testEnterQueue() throws SimulationException, VehicleException {
@@ -162,6 +163,8 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#exitQueue(asgn2Vehicles.Vehicle, int)}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testExitQueue() throws SimulationException, VehicleException {
@@ -173,6 +176,8 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#exitQueue(asgn2Vehicles.Vehicle, int)}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test (expected = SimulationException.class)
 	public void testExitQueueNotQueued() throws SimulationException, VehicleException {
@@ -185,6 +190,8 @@ public class CarParkTests {
 
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#getNumCars()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testGetNumCarsZero() {
@@ -196,6 +203,8 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#getNumMotorCycles()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testGetNumMotorCyclesZero() {
@@ -207,6 +216,8 @@ public class CarParkTests {
 
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#getNumSmallCars()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testGetNumSmallCarsZero() {
@@ -218,6 +229,8 @@ public class CarParkTests {
 
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#numVehiclesInQueue()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testNumVehiclesInQueueZero() {
@@ -228,6 +241,7 @@ public class CarParkTests {
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#numVehiclesInQueue()}.
 	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testNumVehiclesInQueueOne() throws VehicleException, SimulationException {
@@ -242,6 +256,7 @@ public class CarParkTests {
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#parkVehicle(asgn2Vehicles.Vehicle, int, int)}.
 	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testParkVehicle() throws VehicleException, SimulationException {
@@ -253,6 +268,7 @@ public class CarParkTests {
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#parkVehicle(asgn2Vehicles.Vehicle, int, int)}.
 	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test (expected = VehicleException.class)
 	public void testParkVehicleParked() throws VehicleException, SimulationException {
@@ -265,6 +281,7 @@ public class CarParkTests {
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#parkVehicle(asgn2Vehicles.Vehicle, int, int)}.
 	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test (expected = VehicleException.class)
 	public void testParkVehicleQueued() throws VehicleException, SimulationException {
@@ -288,6 +305,8 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#queueEmpty()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testQueueEmpty() {
@@ -310,6 +329,7 @@ public class CarParkTests {
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#spacesAvailable(asgn2Vehicles.Vehicle)}.
 	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
 	public void testSpacesAvailable() throws VehicleException {
@@ -331,7 +351,8 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#unparkVehicle(asgn2Vehicles.Vehicle, int)}.
-	 *  
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312 
 	 */
 	@Test
 	public void testUnparkVehicle() throws VehicleException, SimulationException {
@@ -343,7 +364,8 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#unparkVehicle(asgn2Vehicles.Vehicle, int)}.
-	 *  
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312 
 	 */
 	@Test (expected = VehicleException.class)
 	public void testUnparkVehicleNotParked() throws VehicleException, SimulationException {
