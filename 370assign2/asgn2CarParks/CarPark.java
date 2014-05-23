@@ -50,6 +50,7 @@ public class CarPark {
 	private ArrayList<Vehicle> queue;
 	private ArrayList<Vehicle> spaces;
 	private ArrayList<Vehicle> past;
+	private ArrayList<Vehicle> departing;
 	
 	private int numCars = 0;
 	private int numSmallCars = 0;
@@ -90,6 +91,7 @@ public class CarPark {
 		queue = new ArrayList<Vehicle>(0);
 		spaces = new ArrayList<Vehicle>(0);
 		past = new ArrayList<Vehicle>(0);
+		departing = new ArrayList<Vehicle>(0);
 		
 	}
 	
@@ -109,10 +111,16 @@ public class CarPark {
 		if (force){
 			for(Vehicle v: spaces){
 				v.exitParkedState(time);
-				past.add(v); //TODO
+				past.add(v);
+				spaces.remove(v);
 			}
 		}
-		
+		else {
+			for (Vehicle v: departing){
+				past.add(v);
+				departing.remove(v);
+			}
+		}
 	}
 		
 	/**
@@ -138,10 +146,15 @@ public class CarPark {
 	 * 
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
-	public void archiveQueueFailures(int time) throws VehicleException {
-	
-	
-	}//TODO
+	public void archiveQueueFailures(int time) throws VehicleException, SimulationException {
+		for (Vehicle v: queue){
+			if(v.getArrivalTime() + Constants.MAXIMUM_QUEUE_TIME <= time){
+				exitQueue(v, time);
+				numDissatisfied += 1;
+				past.add(v);
+			}
+		}
+	}
 	
 	/**
 	 * Simple status showing whether carPark is empty
@@ -217,6 +230,7 @@ public class CarPark {
 		}
 		
 		v.exitQueuedState(exitTime);
+		queue.remove(v);
 	}
 	
 	/**
@@ -339,7 +353,20 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void parkVehicle(Vehicle v, int time, int intendedDuration) throws SimulationException, VehicleException {
-	}//TODO
+		
+		if(!spacesAvailable(v)){
+			throw new SimulationException("There are no spaces available.");
+		}
+		if(v.isParked() || v.isQueued()){
+			throw new VehicleException("The vehicle cannot be queued or parked.");
+		}
+		if(intendedDuration < Constants.MINIMUM_STAY){
+			throw new VehicleException("The intended duration cannot be less than the minimum stay time.");
+		}
+		
+		v.enterParkedState(time, intendedDuration);
+		spaces.add(v);
+	}
 
 	/**
 	 * Silently process elements in the queue, whether empty or not. If possible, add them to the car park. 
@@ -434,13 +461,12 @@ public class CarPark {
 		}
 	}
 
-	
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
+		return status;
 	}
 
 	/**
@@ -453,6 +479,7 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void tryProcessNewVehicles(int time,Simulator sim) throws VehicleException, SimulationException {
+		
 	} //TODO
 
 	/**
@@ -467,7 +494,7 @@ public class CarPark {
 	 */
 	public void unparkVehicle(Vehicle v,int departureTime) throws VehicleException, SimulationException {
 		
-		if(!v.isParked()){
+		if(!v.isParked() || v.isQueued()){
 			throw new VehicleException("Vehicle is not in parked state");
 		}		
 		if(departureTime < v.getParkingTime()){
@@ -475,6 +502,8 @@ public class CarPark {
 		}
 		
 		v.exitParkedState(departureTime);
+		spaces.remove(v);
+		departing.add(v);
 	}
 	
 	/**
