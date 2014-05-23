@@ -90,6 +90,7 @@ public class CarPark {
 		queue = new ArrayList<Vehicle>(0);
 		spaces = new ArrayList<Vehicle>(0);
 		past = new ArrayList<Vehicle>(0);
+		
 	}
 	
 
@@ -104,6 +105,14 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void archiveDepartingVehicles(int time,boolean force) throws VehicleException, SimulationException {
+		
+		if (force){
+			for(Vehicle v: spaces){
+				v.exitParkedState(time);
+				past.add(v); //TODO
+			}
+		}
+		
 	}
 		
 	/**
@@ -115,6 +124,11 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void archiveNewVehicle(Vehicle v) throws SimulationException {
+		if (v.isParked() || v.isQueued()){
+			throw new SimulationException("Vehicle is currently queued or parked.");
+		}
+		past.add(v);
+		numDissatisfied += 1;
 	}
 	
 	/**
@@ -125,7 +139,9 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void archiveQueueFailures(int time) throws VehicleException {
-	}
+	
+	
+	}//TODO
 	
 	/**
 	 * Simple status showing whether carPark is empty
@@ -323,7 +339,7 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void parkVehicle(Vehicle v, int time, int intendedDuration) throws SimulationException, VehicleException {
-	}
+	}//TODO
 
 	/**
 	 * Silently process elements in the queue, whether empty or not. If possible, add them to the car park. 
@@ -336,7 +352,7 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void processQueue(int time, Simulator sim) throws VehicleException, SimulationException {
-	}
+	} //TODO
 
 	/**
 	 * Simple status showing whether queue is empty
@@ -377,8 +393,48 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public boolean spacesAvailable(Vehicle v) {
+		int carSpacesTaken = 0;
+		int smallCarSpacesTaken = 0;
+		int motorCycleSpacesTaken = 0;
+		
+		for (Vehicle i: spaces){
+			if (i instanceof Car){
+				if (((Car)i).isSmall() && smallCarSpacesTaken != maxSmallCarSpaces) {
+					smallCarSpacesTaken += 1;
+				}
+				else {
+					carSpacesTaken += 1;
+				}
+			}
+			else if (motorCycleSpacesTaken != maxMotorCycleSpaces){
+				motorCycleSpacesTaken += 1;
+			}
+			else {
+				smallCarSpacesTaken += 1;
+			}
+			
+		}
+		
+		if (v instanceof Car){
+			if (!((Car)v).isSmall() && carSpacesTaken != maxCarSpaces){
+				return true;
+			}
+			else if(((Car)v).isSmall() && smallCarSpacesTaken != maxSmallCarSpaces || carSpacesTaken != maxCarSpaces){
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else if(motorCycleSpacesTaken != maxMotorCycleSpaces || smallCarSpacesTaken != maxSmallCarSpaces){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
+	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -397,7 +453,7 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void tryProcessNewVehicles(int time,Simulator sim) throws VehicleException, SimulationException {
-	}
+	} //TODO
 
 	/**
 	 * Method to remove vehicle from the carpark. 
@@ -405,11 +461,20 @@ public class CarPark {
 	 * So vehicle should be in parked state prior to entry to this method. 
 	 * @param v Vehicle to be removed from the car park 
 	 * @throws VehicleException if Vehicle is not parked, is in a queue, or violates timing constraints 
-	 * @throws SimulationException if vehicle is not in car park
+	 * @throws SimulationException if vehicle is not in car park //TODO
 	 * 
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void unparkVehicle(Vehicle v,int departureTime) throws VehicleException, SimulationException {
+		
+		if(!v.isParked()){
+			throw new VehicleException("Vehicle is not in parked state");
+		}		
+		if(departureTime < v.getParkingTime()){
+			throw new VehicleException("departureTime cannot be less than the parkingTime");
+		}
+		
+		v.exitParkedState(departureTime);
 	}
 	
 	/**
