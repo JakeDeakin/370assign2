@@ -20,7 +20,6 @@ import asgn2CarParks.CarPark;
 import asgn2Exceptions.SimulationException;
 import asgn2Exceptions.VehicleException;
 import asgn2Vehicles.Car;
-import asgn2Vehicles.Vehicle;
 
 /**
  * @author hogan
