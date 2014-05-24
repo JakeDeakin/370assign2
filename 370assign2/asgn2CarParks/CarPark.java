@@ -86,7 +86,7 @@ public class CarPark {
 		this.maxMotorCycleSpaces = maxMotorCycleSpaces;
 		this.maxQueueSize = maxQueueSize;
 		
-		maxSpaces = maxCarSpaces + maxSmallCarSpaces + maxMotorCycleSpaces;
+		maxSpaces = maxCarSpaces + maxMotorCycleSpaces;
 		
 		queue = new ArrayList<Vehicle>(0);
 		spaces = new ArrayList<Vehicle>(0);
@@ -398,6 +398,14 @@ public class CarPark {
 		
 		Vehicle v = queue.get(0);
 		
+		if (!v.isQueued()){
+			throw new VehicleException("The vehicle must be queued.");
+		}
+		
+		if (v.getArrivalTime() > time){
+			throw new VehicleException("The arrival time cannot be greater than the current time.");
+		}
+		
 		if (spacesAvailable(v)){
 			exitQueue(v, time);
 			parkVehicle(v, time, sim.setDuration());
@@ -447,9 +455,8 @@ public class CarPark {
 		int carSpacesTaken = 0;
 		int smallCarSpacesTaken = 0;
 		int motorCycleSpacesTaken = 0;
-
+		
 		for (int i = 0; i < spaces.size(); i++){
-			
 			Vehicle c = spaces.get(i);
 			if (c instanceof MotorCycle){
 				if (motorCycleSpacesTaken != maxMotorCycleSpaces){
@@ -521,6 +528,7 @@ public class CarPark {
 				}
 				else {
 					archiveNewVehicle(c);
+
 				}
 			} 
 			else {
