@@ -195,7 +195,7 @@ public abstract class Vehicle {
 			throw new VehicleException("exitTime cannot be less than arrivalTime");
 		}
 		
-		Q = false; //TODO
+		Q = false;
 		
 		
 	}
