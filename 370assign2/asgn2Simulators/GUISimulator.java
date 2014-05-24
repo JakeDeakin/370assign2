@@ -26,11 +26,6 @@ import java.awt.Insets;
 
 import asgn2Exceptions.SimulationException;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-
 import java.awt.TextField;
 
 import javax.swing.GroupLayout;
