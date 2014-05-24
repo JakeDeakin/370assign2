@@ -19,6 +19,7 @@ import org.junit.Test;
 import asgn2CarParks.CarPark;
 import asgn2Exceptions.SimulationException;
 import asgn2Exceptions.VehicleException;
+import asgn2Simulators.Constants;
 import asgn2Vehicles.Car;
 
 /**
@@ -318,10 +319,42 @@ public class CarParkTests {
 	
 	/**
 	 * Test method for {@link asgn2CarParks.CarPark#queueFull()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	@Test
-	public void testQueueFull() {
-		fail("Not yet implemented"); // TODO
+	public void testQueueFullOneCar() throws VehicleException, SimulationException{
+		carParkTests = new CarPark();
+		Car c = new Car("TEST", 120, true);
+		carParkTests.enterQueue(c);
+		assertFalse(carParkTests.queueFull());
+	}
+	
+	/**
+	 * Test method for {@link asgn2CarParks.CarPark#queueFull()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testQueueFullEmpty() throws VehicleException, SimulationException{
+		carParkTests = new CarPark();
+		assertFalse(carParkTests.queueFull());
+	}
+	
+	/**
+	 * Test method for {@link asgn2CarParks.CarPark#queueFull()}.
+	 * 
+	 * @author Jake n8509956 and Jamie n8853312
+	 */
+	@Test
+	public void testQueueFullFull() throws VehicleException, SimulationException{
+		carParkTests = new CarPark();
+		
+		for(int i = 0; i < Constants.DEFAULT_MAX_QUEUE_SIZE; i++){
+		Car c = new Car("TEST", 120, true);
+		carParkTests.enterQueue(c);
+		}
+		assertTrue(carParkTests.queueFull());
 	}
 
 	/*---------------------------------------------------------------------------------------------------*/

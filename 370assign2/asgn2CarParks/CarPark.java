@@ -50,7 +50,6 @@ public class CarPark {
 	private ArrayList<Vehicle> queue;
 	private ArrayList<Vehicle> spaces;
 	private ArrayList<Vehicle> past;
-	private ArrayList<Vehicle> departing;
 	
 	private int numCars = 0;
 	private int numSmallCars = 0;
@@ -59,9 +58,6 @@ public class CarPark {
 	private int count = 0;
 	
 	private String status = "";
-	
-	
-	
 	
 	/**
 	 * CarPark constructor sets the basic size parameters. 
@@ -96,10 +92,6 @@ public class CarPark {
 		
 	}
 	
-	
-	
-	
-
 	/**
 	 * Archives vehicles exiting the car park after a successful stay. Includes transition via 
 	 * Vehicle.exitParkedState(). 
@@ -115,7 +107,8 @@ public class CarPark {
 			if (spaces.size() == 0){
 				throw new SimulationException("There are no parked vehicles.");
 			}
-			for(Vehicle v: spaces){
+			for (int i = 0; i < spaces.size(); i++){
+				Vehicle v = spaces.get(i);
 				if(!v.isParked()){
 					throw new VehicleException("Vehicle is not parked.");
 				}
@@ -125,10 +118,11 @@ public class CarPark {
 			}
 		}
 		else {
-			for (Vehicle v: spaces){
+			for (int i = 0; i < spaces.size(); i++){
+				Vehicle v = spaces.get(i);
 				if (v.getDepartureTime() == time){
-					//unparkVehicle(v, time);
-					//past.add(v); //TODO
+					unparkVehicle(v, time);
+					past.add(v);
 				}
 				
 			}
@@ -159,11 +153,17 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void archiveQueueFailures(int time) throws VehicleException, SimulationException {
-		for (Vehicle v: queue){
+		for (int i = 0; i < queue.size(); i++){
+			Vehicle v = queue.get(i);
+			
+			if (!v.isQueued()){
+				throw new VehicleException("Vehicle must be in a queue.");
+			}
+			
 			if(v.getArrivalTime() + Constants.MAXIMUM_QUEUE_TIME <= time){
 				exitQueue(v, time);
 				numDissatisfied += 1;
-				past.add(v); // TODO
+				past.add(v);
 			}
 		}
 	}
@@ -445,27 +445,30 @@ public class CarPark {
 		int carSpacesTaken = 0;
 		int smallCarSpacesTaken = 0;
 		int motorCycleSpacesTaken = 0;
-		
-		for (Vehicle i: spaces){
-			if (i instanceof Car){
-				if (((Car)i).isSmall() && smallCarSpacesTaken != maxSmallCarSpaces) {
-					smallCarSpacesTaken += 1;
+
+		for (int i = 0; i < spaces.size(); i++){
+			
+			Vehicle c = spaces.get(i);
+			if (c instanceof MotorCycle){
+				if (motorCycleSpacesTaken != maxMotorCycleSpaces){
+					motorCycleSpacesTaken += 1;
 				}
 				else {
-					carSpacesTaken += 1;
+					smallCarSpacesTaken += 1;
 				}
 			}
-			else if (motorCycleSpacesTaken != maxMotorCycleSpaces){
-				motorCycleSpacesTaken += 1;
+			else if (c instanceof Car){
+				if (((Car)c).isSmall() && smallCarSpacesTaken != maxSmallCarSpaces){
+					smallCarSpacesTaken += 1;
+				}
+				else{
+					carSpacesTaken +=1;
+				}
 			}
-			else {
-				smallCarSpacesTaken += 1;
-			}
-			
 		}
 		
 		if (v instanceof Car){
-			if (!((Car)v).isSmall() && carSpacesTaken != maxCarSpaces){
+			if (!((Car)v).isSmall() && carSpacesTaken < maxCarSpaces - maxSmallCarSpaces){
 				return true;
 			}
 			else if(((Car)v).isSmall() && smallCarSpacesTaken != maxSmallCarSpaces || carSpacesTaken != maxCarSpaces){
@@ -501,20 +504,6 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public void tryProcessNewVehicles(int time,Simulator sim) throws VehicleException, SimulationException {
-		if (sim.motorCycleTrial()){
-			count += 1;
-			MotorCycle m = new MotorCycle("MC" + numMotorCycles, time);
-			if (spacesAvailable(m)){
-				numMotorCycles += 1;
-				parkVehicle(m, time, sim.setDuration());
-			}
-			else if(!queueFull()){
-				enterQueue(m);
-			}
-			else {
-				archiveNewVehicle(m);
-			}
-		}
 		
 		if (sim.newCarTrial()){
 			count += 1;
@@ -546,6 +535,21 @@ public class CarPark {
 				}
 			}
 		}
+		
+		if (sim.motorCycleTrial()){
+			count += 1;
+			MotorCycle m = new MotorCycle("MC" + numMotorCycles, time);
+			if (spacesAvailable(m)){
+				numMotorCycles += 1;
+				parkVehicle(m, time, sim.setDuration());
+			}
+			else if(!queueFull()){
+				enterQueue(m);
+			}
+			else {
+				archiveNewVehicle(m);
+			}
+		}
 	}
 
 	/**
@@ -569,8 +573,19 @@ public class CarPark {
 		
 		v.exitParkedState(departureTime);
 		spaces.remove(v);
-		past.add(v);
 		
+		if (v instanceof Car){
+			if (((Car)v).isSmall()){
+				numCars -= 1;
+				numSmallCars -= 1;
+			}
+			else {
+				numCars -= 1;
+			}
+		}
+		else {
+			numMotorCycles -= 1;
+		}
 	}
 	
 	/**
