@@ -369,9 +369,9 @@ public class CarPark {
 	 */
 	public void parkVehicle(Vehicle v, int time, int intendedDuration) throws SimulationException, VehicleException {
 		
-		if(!spacesAvailable(v)){
-			throw new SimulationException("There are no spaces available.");
-		}
+//		if(!spacesAvailable(v)){
+//			throw new SimulationException("There are no spaces available.");
+//		}
 		if(v.isParked() || v.isQueued()){
 			throw new VehicleException("The vehicle cannot be queued or parked.");
 		}
@@ -452,47 +452,48 @@ public class CarPark {
 	 * @author Jake n8509956 and Jamie n8853312
 	 */
 	public boolean spacesAvailable(Vehicle v) {
-		int carSpacesTaken = 0;
-		int smallCarSpacesTaken = 0;
-		int motorCycleSpacesTaken = 0;
 		
-		for (int i = 0; i < spaces.size(); i++){
-			Vehicle c = spaces.get(i);
-			if (c instanceof MotorCycle){
-				if (motorCycleSpacesTaken != maxMotorCycleSpaces){
-					motorCycleSpacesTaken += 1;
-				}
-				else {
-					smallCarSpacesTaken += 1;
-				}
-			}
-			else if (c instanceof Car){
-				if (((Car)c).isSmall() && smallCarSpacesTaken != maxSmallCarSpaces){
-					smallCarSpacesTaken += 1;
-				}
-				else{
-					carSpacesTaken +=1;
-				}
-			}
+		int carSpacesAvailable = maxCarSpaces - maxSmallCarSpaces;
+		int smallCarSpacesAvailable = maxSmallCarSpaces;
+		int motorCycleSpacesAvailable = maxMotorCycleSpaces;
+		
+		if (numMotorCycles <= motorCycleSpacesAvailable){
+			motorCycleSpacesAvailable -= numMotorCycles;
+		}
+		else {
+			motorCycleSpacesAvailable = 0;
+			smallCarSpacesAvailable -= numMotorCycles - maxMotorCycleSpaces;
 		}
 		
+		if (numSmallCars <= smallCarSpacesAvailable){
+			smallCarSpacesAvailable -= numSmallCars;
+		}
+		else {
+			carSpacesAvailable -= numSmallCars - smallCarSpacesAvailable;
+			smallCarSpacesAvailable = 0;
+		}
+		
+		carSpacesAvailable -= numCars - numSmallCars;
+		
+		
 		if (v instanceof Car){
-			if (!((Car)v).isSmall() && carSpacesTaken < maxCarSpaces - maxSmallCarSpaces){
+			if (!((Car)v).isSmall() && carSpacesAvailable > 0){
 				return true;
 			}
-			else if(((Car)v).isSmall() && smallCarSpacesTaken != maxSmallCarSpaces || carSpacesTaken != maxCarSpaces){
+			else if (((Car)v).isSmall() && smallCarSpacesAvailable > 0 || carSpacesAvailable > 0){
 				return true;
 			}
 			else {
 				return false;
 			}
 		}
-		else if(motorCycleSpacesTaken != maxMotorCycleSpaces || smallCarSpacesTaken != maxSmallCarSpaces){
+		else if(motorCycleSpacesAvailable > 0 || smallCarSpacesAvailable > 0){
 			return true;
 		}
 		else {
 			return false;
 		}
+		
 	}
 
 	/* (non-Javadoc)
