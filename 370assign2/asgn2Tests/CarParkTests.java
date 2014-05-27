@@ -180,7 +180,7 @@ public class CarParkTests {
 			MotorCycle m = new MotorCycle("TEST", 120);
 			carParkTests.parkVehicle(m, 120, 140);
 		}
-		assertTrue(carParkTests.queueFull());
+		assertTrue(carParkTests.carParkFull());
 
 	}
 
@@ -197,7 +197,7 @@ public class CarParkTests {
 			carParkTests.parkVehicle(c, 120, 140);
 		}
 
-		assertFalse(carParkTests.queueFull());
+		assertFalse(carParkTests.carParkFull());
 
 	}
 
