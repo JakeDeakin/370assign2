@@ -193,6 +193,7 @@ public class CarPark {
 				exitQueue(v, time);
 				numDissatisfied += 1;
 				past.add(v);
+				i--;
 
 			}
 		}
@@ -457,7 +458,7 @@ public class CarPark {
 	public void processQueue(int time, Simulator sim) throws VehicleException,
 			SimulationException {
 		if (queue.size() != 0) {
-
+			
 			Vehicle v = queue.get(0);
 
 			if (!v.isQueued()) {

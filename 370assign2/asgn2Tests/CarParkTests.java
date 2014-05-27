@@ -445,7 +445,7 @@ public class CarParkTests {
 	 * {@link asgn2CarParks.CarPark#processQueue(int, asgn2Simulators.Simulator)}
 	 * .
 	 */
-	@Test(expected = SimulationException.class)
+	@Test
 	public void testProcessQueueFullPark() throws VehicleException,
 			SimulationException {
 		carParkTests = new CarPark();
@@ -455,12 +455,29 @@ public class CarParkTests {
 			Car c = new Car("TEST", 120, true);
 			carParkTests.parkVehicle(c, 120, 140);
 		}
-
-		for (int i = 0; i < Constants.DEFAULT_MAX_QUEUE_SIZE; i++) {
-			Car c = new Car("TEST", 120, true);
-			carParkTests.enterQueue(c);
-		}
-		carParkTests.processQueue(120, sim);
+		
+		Car car = new Car("Test", 125, true);
+		carParkTests.enterQueue(car);
+		carParkTests.processQueue(130, sim);
+		assertTrue(car.isQueued());
+		
+	}
+	
+	/**
+	 * Test method for
+	 * {@link asgn2CarParks.CarPark#processQueue(int, asgn2Simulators.Simulator)}
+	 * .
+	 */
+	@Test
+	public void testProcessQueueOverTime() throws VehicleException,
+			SimulationException {
+		carParkTests = new CarPark();
+		Simulator sim = new Simulator();
+		Car car = new Car("Test", 250, true);
+		carParkTests.enterQueue(car);
+		carParkTests.archiveQueueFailures(275);
+		assertFalse(car.isParked());
+		
 	}
 
 	/*---------------------------------------------------------------------------------------------------*/
