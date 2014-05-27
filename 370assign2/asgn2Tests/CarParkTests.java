@@ -472,7 +472,6 @@ public class CarParkTests {
 	public void testProcessQueueOverTime() throws VehicleException,
 			SimulationException {
 		carParkTests = new CarPark();
-		Simulator sim = new Simulator();
 		Car car = new Car("Test", 250, true);
 		carParkTests.enterQueue(car);
 		carParkTests.archiveQueueFailures(275);
